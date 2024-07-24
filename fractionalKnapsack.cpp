@@ -20,24 +20,35 @@ struct Item {
 
 struct Knapsack {
 
-int maxWeight;
+    int maxWeight;
 
-//the "double" part of the pair is how much of the item was taken
-vector<pair<Item, double>> contents;
+    //the "double" part of the pair is how much of the item was taken
+    vector<pair<Item, double>> contents;
 
-double totalValue;
+    double totalValue;
 
-//constructor
-Knapsack()
-{
-    cout << "knapsack sewn!" << endl;
-}
+    //constructor
+    Knapsack()
+    {
+        cout << "knapsack sewn!" << endl;
+    }
 
 };
+
+//functions
+
+bool comparison(Item& a, Item& b) {
+
+    return a.wv_ratio > b.wv_ratio;
+
+}
 
 int main() {
 
     Item gold(5, 20);
+    Item silver(5, 15);
     Knapsack sack;
+
+    cout << comparison(silver, gold);
     
 }
