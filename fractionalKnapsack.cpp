@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 struct Item {
@@ -43,12 +44,36 @@ bool comparison(Item& a, Item& b) {
 
 }
 
+//main greedy function to solve problem
+void fractionalKnapsack(vector<Item> list, Knapsack& sack) {
+
+    //sort Item by wv_ratio
+    sort(list.begin(), list.end(), comparison);
+
+    //print list
+    for (int i = 0; i <= list.size() - 1; i++) {
+
+        cout << list[i].weight << " " << list[i].value << " " << list[i].wv_ratio << endl;
+    }
+
+}
+
 int main() {
 
     Item gold(5, 20);
     Item silver(5, 15);
+    Item wood (1, 5);
+    Item sillyString (1,1);
     Knapsack sack;
 
-    cout << comparison(silver, gold);
+    vector<Item> vec;
+    vec.push_back(gold);
+    vec.push_back(silver);
+    vec.push_back(wood);
+    vec.push_back(sillyString);
+
+    fractionalKnapsack(vec, sack);
+
+
     
 }
