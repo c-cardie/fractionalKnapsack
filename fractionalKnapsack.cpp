@@ -9,15 +9,12 @@ struct Item {
     const char* name;
     int weight;
     int value;
-    double wv_ratio;
+    double vw_ratio;
 
     //constructor
     Item (const char* n = "Item", int w = 0, int v = 0)
-        : name(n), weight(w), value(v), wv_ratio (static_cast<double>(w)/v) 
+        : name(n), weight(w), value(v), vw_ratio (static_cast<double>(v)/w) 
         {
-            cout << "weight: " << weight << endl;
-            cout << "value: " << value << endl;
-            cout << "weight-value ratio: " << wv_ratio << endl;
         }
 };
 
@@ -35,7 +32,6 @@ struct Knapsack {
 
         : maxWeight(mw)
     {
-        cout << "knapsack sewn!" << endl;
     }
 
 };
@@ -44,17 +40,18 @@ struct Knapsack {
 
 bool comparison(Item& a, Item& b) {
 
-    return a.wv_ratio > b.wv_ratio;
+    return a.vw_ratio > b.vw_ratio;
 
 }
 
 void printSolution(Knapsack& sack) {
 
     cout << "The optimal solution for a knapsack with a maximum weight of: " << sack.maxWeight << endl;
+    cout << "The total value of the items in the knapsack is $" << sack.totalValue << endl;
     cout << "Items and amount of each item taken" << endl;
     for (int i = 0; i <= sack.contents.size() - 1; i++) {
 
-        cout << "Item: " << (sack.contents[i].first).name << " how much taken: " << sack.contents[i].second << endl;
+        cout << "Item: " << (sack.contents[i].first).name << ":" << " how much taken: " << sack.contents[i].second << endl;
 
     }
 
@@ -68,13 +65,16 @@ void fractionalKnapsack(vector<Item> list, Knapsack& sack) {
     //sort Item by wv_ratio
     sort(list.begin(), list.end(), comparison);
 
+    
+    //print list (for debuggining only)
+
     /*
-    //print list
     for (int i = 0; i <= list.size() - 1; i++) {
 
-        cout << list[i].weight << " " << list[i].value << " " << list[i].wv_ratio << endl;
+        cout << list[i].name << " " << list[i].weight << " " << list[i].value << " " << list[i].vw_ratio << endl;
     }
     */
+    
 
    //current weight in the knapsack
    int curWeight = 0;
@@ -98,6 +98,7 @@ void fractionalKnapsack(vector<Item> list, Knapsack& sack) {
 
             double remain = sack.maxWeight - curWeight;
             sack.totalValue += list[i].value * (remain / list[i].weight);
+            sack.contents.push_back(make_pair(list[i], static_cast<double>(remain / list[i].weight)));
             break;
 
         }
@@ -112,22 +113,35 @@ void fractionalKnapsack(vector<Item> list, Knapsack& sack) {
 
 int main() {
 
+    //create items
     Item gold("gold", 5, 20);
     Item silver ("silver", 5, 15);
     Item wood ("wood", 1, 5);
     Item sillyString ("sillyString", 1,1);
-    Knapsack sack(40);
+    Item diamond("diamond", 2, 60);
+    Item bronze("bronze", 4, 12);
+    Item platinum("platinum", 6, 70);
+    Item iron("iron", 3, 8);
+    Item copper("copper", 4, 10);
+    Item lead("lead", 7, 14);
+    Knapsack sack(20);
 
+    //create vector
     vector<Item> vec;
+
+    //put 10 items onto the vector
     vec.push_back(gold);
     vec.push_back(silver);
     vec.push_back(wood);
     vec.push_back(sillyString);
+    vec.push_back(diamond);
+    vec.push_back(bronze);
+    vec.push_back(platinum);
+    vec.push_back(iron);
+    vec.push_back(copper);
+    vec.push_back(lead);
 
-    
-
-    cout << "testing knapsack function functionality" << endl;
-
+    //solve the problem and print the 
     fractionalKnapsack(vec, sack);
 
 
