@@ -13,7 +13,7 @@ struct Item {
 
     //constructor
     Item (const char* n = "Item", int w = 0, int v = 0)
-        : name(n), weight(w), value(v), vw_ratio (static_cast<double>(v)/w) 
+        : name(n), weight(w), value(v), vw_ratio (v == 0 ? 0 : static_cast<double>(v)/w) 
         {
         }
 };
